@@ -79,7 +79,7 @@ if __name__ == '__main__':
                 'Accept-Language': 'en-US, en;q=0.5'})
 
     # The webpage URL
-    URL = "https://www.amazon.de/Samsung-T7-Portable-SSD-MU-PC1T0R/dp/B082VVV926/ref=sr_1_4?__mk_de_DE=ÅMÅŽÕÑ&crid=14P4EWAMJ7FV6&keywords=samsung%2Bt7&qid=1663676309&sprefix=samsung%2Bt7%2Caps%2C113&sr=8-4&th=1"
+    URL = "https://www.amazon.de/Barilla-Pasta-Penne-Rigate-1kg/dp/B07YQG4M4D/ref=sr_1_6?__mk_de_DE=ÅMÅŽÕÑ&crid=17RV2UXEXNLHH&keywords=nudeln&qid=1663794060&rdc=1&sprefix=nudeln%2Caps%2C101&sr=8-6"
 
     # HTTP Request
     webpage = requests.get(URL, headers=HEADERS)
