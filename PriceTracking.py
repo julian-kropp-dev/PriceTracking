@@ -3,6 +3,7 @@
 import csv
 from bs4 import BeautifulSoup
 import requests
+from datetime import datetime
 
 
 # Function to extract Product Title
@@ -87,6 +88,8 @@ if __name__ == '__main__':
     # Soup Object containing all data
     soup = BeautifulSoup(webpage.content, "lxml")
 
+    current_day = datetime.today().strftime('%d-%m-%Y')
+
     # Function calls to display all necessary product information
     print("Product Title =", get_title(soup))
     print("Product Price =", get_price(soup))
@@ -97,5 +100,5 @@ if __name__ == '__main__':
     # write product information into a csv file for data handling
     with open("products.csv", "a", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow([get_title(soup), get_price(soup), get_rating(soup), get_review_count(soup), get_availability(soup)])
+        writer.writerow([get_title(soup), current_day, get_price(soup), get_rating(soup), get_review_count(soup), get_availability(soup)])
     file.close()
