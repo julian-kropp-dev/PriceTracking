@@ -74,31 +74,35 @@ def get_availability(soup):
 
 
 if __name__ == '__main__':
-    # Headers for request
-    HEADERS = ({'User-Agent':
-                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15',
-                'Accept-Language': 'en-US, en;q=0.5'})
 
     # The webpage URL
-    URL = "https://www.amazon.de/Barilla-Pasta-Penne-Rigate-1kg/dp/B07YQG4M4D/ref=sr_1_6?__mk_de_DE=ÅMÅŽÕÑ&crid=17RV2UXEXNLHH&keywords=nudeln&qid=1663794060&rdc=1&sprefix=nudeln%2Caps%2C101&sr=8-6"
+    with open("Links.txt") as file:
+        for line in file:
+            URL = line.rstrip()
+            # Headers for request
+            HEADERS = ({'User-Agent':
+                            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15',
+                        'Accept-Language': 'en-US, en;q=0.5'})
+            # HTTP Request
+            webpage = requests.get(URL, headers=HEADERS)
 
-    # HTTP Request
-    webpage = requests.get(URL, headers=HEADERS)
+            # Soup Object containing all data
+            soup = BeautifulSoup(webpage.content, "lxml")
 
-    # Soup Object containing all data
-    soup = BeautifulSoup(webpage.content, "lxml")
+            current_day = datetime.today().strftime('%d.%m.%Y')
 
-    current_day = datetime.today().strftime('%d-%m-%Y')
+            # Function calls to display all necessary product information
+            print("Product Title =", get_title(soup))
+            print("Product Price =", get_price(soup))
+            print("Product Rating =", get_rating(soup))
+            print("Number of Product Reviews =", get_review_count(soup))
+            print("Availability =", get_availability(soup))
 
-    # Function calls to display all necessary product information
-    print("Product Title =", get_title(soup))
-    print("Product Price =", get_price(soup))
-    print("Product Rating =", get_rating(soup))
-    print("Number of Product Reviews =", get_review_count(soup))
-    print("Availability =", get_availability(soup))
-
-    # write product information into a csv file for data handling
-    with open("products.csv", "a", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow([get_title(soup), current_day, get_price(soup), get_rating(soup), get_review_count(soup), get_availability(soup)])
-    file.close()
+            # write product information into a csv file for data handling
+            with open("products.csv", "a", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow(
+                    [get_title(soup), current_day, get_price(soup), get_rating(soup), get_review_count(soup),
+                     get_availability(soup)])
+            file.close()
+        file.close()
